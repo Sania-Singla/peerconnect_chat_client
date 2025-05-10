@@ -2,7 +2,6 @@ import { useContext, createContext, useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { useUserContext } from './UserContext';
 import { useChatContext } from './ChatContext';
-import { BASE_BACKEND_URL } from '../Constants/constants';
 
 const SocketContext = createContext();
 
@@ -15,7 +14,9 @@ const SocketContextProvider = ({ children }) => {
     function connectSocket() {
         if (!user || socket) return;
 
-        const socketInstance = io(BASE_BACKEND_URL, { withCredentials: true });
+        const socketInstance = io(import.meta.env.VITE_BACKEND_BASE_URL, {
+            withCredentials: true,
+        });
 
         socketInstance.on('connect', () => {
             console.log('socket connected. SocketId: ', socketInstance.id);
